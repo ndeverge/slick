@@ -99,7 +99,7 @@ object SlickBuild extends Build {
     settings = Project.defaultSettings ++ inConfig(config("macro"))(Defaults.configSettings) ++ sharedSettings ++ fmppSettings ++ site.settings ++ site.sphinxSupport() ++ extTarget("slick", None) ++ Seq(
       name := "Slick",
       description := "Scala Language-Integrated Connection Kit",
-      scalacOptions in (Compile, doc) <++= (version).map(v => Seq("-doc-title", "Slick", "-doc-version", v)),
+      scalacOptions in (Compile, doc) <++= (version, baseDirectory).map((v,bd) => Seq("-doc-title", "Slick", "-doc-version", v, "-sourcepath", bd.getAbsolutePath, "-doc-source-url", "https://github.com/slick/slick/tree/" + (if (v.trim.endsWith("-SNAPSHOT")) "master" else v) +"€{FILE_PATH}.scala")),
       test := (),
       testOnly <<= inputTask { argTask => (argTask) map { args => }},
       ivyConfigurations += config("macro").hide.extend(Compile),
